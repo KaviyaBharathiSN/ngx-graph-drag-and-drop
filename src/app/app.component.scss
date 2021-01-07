@@ -1,0 +1,20 @@
+p {
+  font-family: Lato;
+}
+.shapeCanvas {
+  height: 300px;
+  border: solid;
+  border-color: lightgrey;
+}
+
+.shape {
+  fill-opacity: 0;
+  stroke: black;
+  stroke-width: 1;
+}
+.drag-line {
+  stroke-width: 2px;
+  stroke: #000;
+  stroke-dasharray: 4;
+  z-index: 3;
+}
