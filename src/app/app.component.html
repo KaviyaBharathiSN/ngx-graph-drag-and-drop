@@ -1,119 +1,62 @@
 <div style="padding-bottom:10%;">
-  <pre><h1>Tasks</h1></pre>
-  <div style="width:100%;" dndDropzone dndEffectAllowed="move" class="dndList">
-    <div dndPlaceholderRef class="dndPlaceholder"></div>
-    <div
-      style="width: 100%%; margin: 10px; float: left; border: 1px solid; padding: 1px;"
-      *ngFor="let fruit of fruits"
-      [dndDraggable]="fruit"
-      [dndType]="fruit"
-      dndEffectAllowed="move"
-      (dndMoved)="onDragged(fruit, fruits)"
-    >
-      <h4 style="    margin: 7px;  text-align: center">{{fruit}}</h4>
-    </div>
-  </div>
+	<pre><h1>Tasks</h1></pre>
+	<div style="width:100%;" dndDropzone dndEffectAllowed="move" class="dndList">
+		<div dndPlaceholderRef class="dndPlaceholder"></div>
+		<div style="width: 100%%; margin: 10px; float: left; border: 1px solid; padding: 1px;"
+			*ngFor="let fruit of fruits" [dndDraggable]="fruit" [dndType]="fruit" dndEffectAllowed="move"
+			(dndMoved)="onDragged(fruit, fruits)">
+			<h4 style="    margin: 7px;  text-align: center">{{fruit}}</h4>
+		</div>
+	</div>
 
-  <br />
+	<br />
 </div>
-<div
-  (dndDrop)="onDrop($event, bananas) "
-  (mouseup)="onmouseup()"
-  dndDropzone
-  dndEffectAllowed="move"
-  style="border: 1px solid #cdcdcd;z-index: 2;position:absolute;width:100%;height:80%"
->
-  <ngx-graph
-    #graph
-    class="chart-container"
-    [links]="hierarchialGraph.links"
-    [nodes]="hierarchialGraph.nodes"
-    [legend]="false"
-    [curve]="curve"
-    [enableZoom]="false"
-    [draggingEnabled]="false"
-  >
-    <ng-template #defsTemplate>
-      <svg:marker
-        id="arrow"
-        viewBox="0 -5 10 10"
-        refX="8"
-        refY="0"
-        markerWidth="4"
-        markerHeight="6"
-        orient="auto"
-      >
-        <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
-      </svg:marker>
-    </ng-template>
+	<div (dndDrop)="onDrop($event, bananas) " (mouseup)="onmouseup()" dndDropzone dndEffectAllowed="move"
+		style="border: 1px solid #cdcdcd;z-index: 2;position:absolute;width:100%;height:80%">
+		<ngx-graph #graph class="chart-container" [links]="hierarchialGraph.links" [nodes]="hierarchialGraph.nodes"
+			[legend]="false" [curve]="curve" [enableZoom]="false" [draggingEnabled]="false">
+			<ng-template #defsTemplate>
+				<svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="6"
+					orient="auto">
+					<svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+				</svg:marker>
+			</ng-template>
 
-    <ng-template #nodeTemplate let-node>
-      <svg:g
-        class="node"
-        (mousedown)="onNodeCircleMouseDown($event, node)"
-        (mouseup)="onMouseUp($event, node)"
-      >
-        <svg:rect
-          [attr.width]="node.dimension.width"
-          [attr.height]="node.dimension.height"
-          [attr.fill]="node.data.color"
-        />
-        <svg:text
-          alignment-baseline="central"
-          [attr.x]="10"
-          [attr.y]="node.dimension.height / 2"
-        >
-          {{node.label}}
-        </svg:text>
-        <svg:circle
-          class="drag-circle"
-          [attr.cx]="node.dimension.width"
-          [attr.cy]="node.dimension.height / 2"
-          [attr.r]="8"
-          fill="#ff0000"
-          ngx-tooltip
-          tooltipTitle="New Action"
-          tooltipPlacement="right"
-          (mousedown)="onNodeCircleMouseDown($event, node)"
-          (mouseup)="onMouseUp($event, node)"
-        />
-      </svg:g>
-    </ng-template>
-    <ng-template #linkTemplate let-link>
-      <svg:g class="edge">
-        <svg:path
-          (click)="RemoveLink(link)"
-          class="line"
-          stroke-width="2"
-          marker-end="url(#arrow)"
-        ></svg:path>
-        <svg:text class="edge-label" text-anchor="middle">
-          <textPath
-            class="text-path"
-            [attr.href]="'#' + link.id"
-            [style.dominant-baseline]="link.dominantBaseline"
-            startOffset="50%"
-          >
-            {{link.label}}
-          </textPath>
-        </svg:text>
-      </svg:g>
-    </ng-template>
+			<ng-template #nodeTemplate let-node>
+				<svg:g class="node" (mousedown)="onNodeCircleMouseDown($event, node)"
+					(mouseup)="onMouseUp($event, node)">
+					<svg:rect [attr.width]="node.dimension.width" [attr.height]="node.dimension.height"
+						style="fill:white;stroke-width:1px;stroke:black" />
+					<svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+						{{node.label}}
+					</svg:text>
+					<svg:circle class="drag-circle" [attr.cx]="node.dimension.width /2"
+						[attr.cy]="node.dimension.height" [attr.r]="5" fill="gray" ngx-tooltip tooltipTitle="New Action"
+						tooltipPlacement="right" (mousedown)="onNodeCircleMouseDown($event, node)"
+						(mouseup)="onMouseUp($event, node)" />
+				</svg:g>
+			</ng-template>
+			<ng-template #linkTemplate let-link>
+				<svg:g class="edge">
+					<svg:path (click)="RemoveLink(link)" class="line" stroke-width="2" marker-end="url(#arrow)">
+					</svg:path>
+					<svg:text class="edge-label" text-anchor="middle">
+						<textPath class="text-path" [attr.href]="'#' + link.id"
+							[style.dominant-baseline]="link.dominantBaseline" startOffset="50%">
+							{{link.label}}
+						</textPath>
+					</svg:text>
+				</svg:g>
+			</ng-template>
 
-    <!-- Dragging line -->
-    <svg:line
-      class="line drag-line"
-      *ngIf="draggingNode"
-      [attr.x1]="startingDragPosition.x"
-      [attr.y1]="startingDragPosition.y"
-      [attr.x2]="currentDragPosition.x"
-      [attr.y2]="currentDragPosition.y"
-      marker-end="url(#arrow)"
-    />
-  </ngx-graph>
+			<!-- Dragging line -->
+			<svg:line class="line drag-line" *ngIf="draggingNode" [attr.x1]="startingDragPosition.x"
+				[attr.y1]="startingDragPosition.y" [attr.x2]="currentDragPosition.x" [attr.y2]="currentDragPosition.y"
+				marker-end="url(#arrow)" />
+		</ngx-graph>
 
-  <!-- <svg:line class="shape" *ngIf="createdShape &&createdShape.type=='line'" [attr.x1]="createdShape.x"
+		<!-- <svg:line class="shape" *ngIf="createdShape &&createdShape.type=='line'" [attr.x1]="createdShape.x"
 			[attr.y1]="createdShape.y" [attr.x2]="createdShape.x*1+createdShape.w*1"
 			[attr.y2]="createdShape.y*1+createdShape.h*1">
 		</svg:line> -->
-</div>
+	</div>
